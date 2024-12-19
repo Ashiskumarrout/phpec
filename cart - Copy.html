@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/e6878467af.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Header Section -->
+    <section id="header">
+        <a href="#"><img src="Ecmerse photos/smalllogo.png" alt="Logo" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shope.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a class="active" href="cart.html"><i class="fa-solid fa-cart-plus"></i></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Page Header Section -->
+    <section id="page-header" class="about-header">
+        <h2>#let's talk</h2>
+        <p>LEAVE A MESSAGE. We love to hear from you!</p>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Remove</td>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Cart items will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Cart Total and Coupon Section -->
+    <section id="cart-add" class="section-p1">
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" placeholder="Enter your coupon">
+                <button class="normal">Apply</button>
+            </div>
+        </div>
+    
+        <div id="subtotal">
+            <h3>Cart Total</h3>
+            <table>
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td id="cart-subtotal">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td>Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td id="cart-total"><strong>$0.00</strong></td>
+                </tr>
+            </table>
+            <button 
+            class="normal" onclick="window.location.href='order-summary.html'">Proceed to Checkout</button>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="section-p1">
+        <!-- Footer content goes here -->
+    </footer>
+
+    <!-- JavaScript to Handle Cart Functionality -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartTableBody = document.querySelector("#cart tbody");
+
+            function renderCart() {
+                cartTableBody.innerHTML = ''; // Clear the table body
+
+                cart.forEach((product, index) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td><button class="remove-item" data-index="${index}">Remove</button></td>
+                        <td><img src="${product.image}" alt="${product.name}" width="50"></td>
+                        <td>${product.name}</td>
+                        <td>$${product.price.toFixed(2)}</td>
+                        <td>${product.quantity}</td>
+                        <td>$${(product.price * product.quantity).toFixed(2)}</td>
+                    `;
+                    cartTableBody.appendChild(row);
+                });
+
+                updateCartTotals();
+            }
+
+            function updateCartTotals() {
+                const cartSubtotal = document.getElementById("cart-subtotal");
+                const cartTotal = document.getElementById("cart-total");
+
+                const subtotal = cart.reduce((sum, product) => sum + product.price * product.quantity, 0);
+
+                cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+                cartTotal.textContent = `$${subtotal.toFixed(2)}`;
+            }
+
+            function removeItem(index) {
+                cart.splice(index, 1); // Remove item from cart
+                localStorage.setItem("cart", JSON.stringify(cart)); // Update cart in local storage
+                renderCart(); // Re-render cart
+            }
+
+            // Initial render
+            renderCart();
+
+            // Event delegation for remove buttons
+            cartTableBody.addEventListener("click", function(event) {
+                if (event.target.classList.contains("remove-item")) {
+                    const index = event.target.getAttribute("data-index");
+                    removeItem(index);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

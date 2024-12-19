@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        .section button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .section button:hover {
+            background: #0056b3;
+        }
+        #order-details {
+            margin-top: 20px;
+        }
+        .order-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-details {
+            display: none;
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .order-details p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Orders</h1>
+
+        <!-- Orders Section -->
+        <div class="section" id="my-orders">
+            <h2>Orders</h2>
+            <div id="order-list">
+                <!-- Example order items -->
+                <div class="order-item" onclick="showOrderDetails('order1')">
+                    <span>Order #1 - $29.99</span>
+                </div>
+                <div class="order-item" onclick="showOrderDetails('order2')">
+                    <span>Order #2 - $49.99</span>
+                </div>
+            </div>
+            <div id="order-details" class="order-details">
+                <!-- Order details will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showOrderDetails(orderId) {
+            var orderDetailsDiv = document.getElementById('order-details');
+
+            // Example order details data
+            var orders = {
+                'order1': {
+                    items: [
+                        { name: 'Product A', quantity: 1, price: '$10.00' },
+                        { name: 'Product B', quantity: 2, price: '$9.99' }
+                    ],
+                    total: '$29.99'
+                },
+                'order2': {
+                    items: [
+                        { name: 'Product C', quantity: 1, price: '$49.99' }
+                    ],
+                    total: '$49.99'
+                }
+            };
+
+            // Populate order details
+            var order = orders[orderId];
+            var detailsHtml = '<h3>Order Details</h3>';
+            if (order) {
+                detailsHtml += '<ul>';
+                order.items.forEach(function(item) {
+                    detailsHtml += '<li>' + item.name + ' - Quantity: ' + item.quantity + ', Price: ' + item.price + '</li>';
+                });
+                detailsHtml += '</ul>';
+                detailsHtml += '<p><strong>Total: ' + order.total + '</strong></p>';
+            } else {
+                detailsHtml += '<p>No details available for this order.</p>';
+            }
+
+            // Show order details
+            orderDetailsDiv.innerHTML = detailsHtml;
+            orderDetailsDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

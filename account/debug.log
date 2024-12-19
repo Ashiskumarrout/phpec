@@ -1,0 +1,66 @@
+Request received at 2024-08-19 12:54:08
+Request received at 2024-08-19 12:54:58
+Request received at 2024-08-19 12:54:59
+Request received at 2024-08-19 12:54:59
+Request received at 2024-08-19 12:54:59
+Request received at 2024-08-19 12:55:27
+Request received at 2024-08-19 12:56:54
+Request received at 2024-08-19 12:57:34
+Request received at 2024-08-19 12:57:41
+User Input: hii
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "hii",
+  "traits": {}
+}
+Request received at 2024-08-19 12:57:55
+User Input: i problem
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "i problem",
+  "traits": {}
+}
+Request received at 2024-08-19 12:59:19
+Request received at 2024-08-19 12:59:23
+User Input: hii
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "hii",
+  "traits": {}
+}
+Request received at 2024-08-19 12:59:35
+User Input: i have problem
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "i have problem",
+  "traits": {}
+}
+Request received at 2024-08-19 12:59:44
+User Input: ok'
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "ok'",
+  "traits": {}
+}
+Request received at 2024-08-19 13:05:34
+Request received at 2024-08-19 13:05:39
+User Input: hii
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "hii",
+  "traits": {}
+}
+Request received at 2024-08-19 13:05:47
+User Input: hii
+API Response: {
+  "entities": {},
+  "intents": [],
+  "text": "hii",
+  "traits": {}
+}

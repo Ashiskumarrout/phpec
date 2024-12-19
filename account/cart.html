@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Options</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        .section button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .section button:hover {
+            background: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Options</h1>
+
+        <!-- Gift Cards Section -->
+        <div class="section" id="gift-cards">
+            <h2>Gift Cards</h2>
+            <button onclick="showGiftCardForm()">Add Gift Card</button>
+            <div id="gift-card-form" class="hidden">
+                <h3>Enter Gift Card Details</h3>
+                <label for="gift-card-number">Card Number:</label>
+                <input type="text" id="gift-card-number" placeholder="XXXX-XXXX-XXXX-XXXX"><br>
+                <label for="gift-card-amount">Amount:</label>
+                <input type="number" id="gift-card-amount" placeholder="Amount"><br>
+                <button onclick="addGiftCard()">Add Card</button>
+            </div>
+        </div>
+
+        <!-- Saved UPI Section -->
+        <div class="section" id="saved-upi">
+            <h2>Saved UPI</h2>
+            <button onclick="showSavedUPI()">View Saved UPI</button>
+            <div id="saved-upi-list" class="hidden">
+                <ul>
+                    <li>upi_user1@upi</li>
+                    <li>upi_user2@upi</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Saved Cards Section -->
+        <div class="section" id="saved-cards">
+            <h2>Saved Cards</h2>
+            <button onclick="showSavedCards()">View Saved Cards</button>
+            <div id="saved-cards-list" class="hidden">
+                <ul>
+                    <li>XXXX-XXXX-XXXX-1234</li>
+                    <li>XXXX-XXXX-XXXX-5678</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showGiftCardForm() {
+            document.getElementById('gift-card-form').classList.toggle('hidden');
+        }
+
+        function addGiftCard() {
+            var cardNumber = document.getElementById('gift-card-number').value;
+            var amount = document.getElementById('gift-card-amount').value;
+            if (cardNumber && amount) {
+                alert('Gift Card Added:\nCard Number: ' + cardNumber + '\nAmount: ' + amount);
+                // Here you would typically send the data to the server
+                document.getElementById('gift-card-number').value = '';
+                document.getElementById('gift-card-amount').value = '';
+            } else {
+                alert('Please enter both card number and amount.');
+            }
+        }
+
+        function showSavedUPI() {
+            document.getElementById('saved-upi-list').classList.toggle('hidden');
+        }
+
+        function showSavedCards() {
+            document.getElementById('saved-cards-list').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

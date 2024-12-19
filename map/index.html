@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Form with Google Maps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #order-form {
+            width: 800px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #74b9ff;
+        }
+
+        #map {
+            width: 100%;
+            height: 300px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        #location-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <form id="order-form" action="process-order.php" method="POST">
+        <h3>Delivery Address</h3>
+        <label for="full-name">Full Name:</label>
+        <input type="text" id="full-name" name="full-name" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+
+        <label for="pincode">Pincode:</label>
+        <input type="text" id="pincode" name="pincode" required>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="road">Road/Area:</label>
+        <input type="text" id="road" name="road" required>
+
+        <div id="location-options">
+            <button type="button" onclick="getCurrentLocation()">Use Current Location</button>
+            <p id="location-message"></p>
+        </div>
+
+        <h3>Payment Options</h3>
+        <input type="radio" id="cash-on-delivery" name="payment" value="cash-on-delivery" checked>
+        <label for="cash-on-delivery">Cash on Delivery</label>
+        <br>
+        <input type="radio" id="card-payment" name="payment" value="card-payment">
+        <label for="card-payment">Card Payment</label>
+        <br>
+
+        <button type="submit" class="normal">Place Order</button>
+        <div id="map"></div>
+    </form>
+
+    <script>
+        function getCurrentLocation() {
+            const locationMessage = document.getElementById('location-message');
+            locationMessage.textContent = "Fetching your location...";
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // Initialize Google Maps
+                        const map = new google.maps.Map(document.getElementById("map"), {
+                            center: { lat: latitude, lng: longitude },
+                            zoom: 15,
+                        });
+
+                        // Add Marker
+                        const marker = new google.maps.Marker({
+                            position: { lat: latitude, lng: longitude },
+                            map: map,
+                        });
+
+                        // Fetch address using Google Maps Geocoding API
+                        const geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+                            if (status === "OK" && results[0]) {
+                                const address = results[0].address_components;
+
+                                // Populate form fields
+                                address.forEach((component) => {
+                                    if (component.types.includes("postal_code")) {
+                                        document.getElementById("pincode").value = component.long_name;
+                                    }
+                                    if (component.types.includes("locality")) {
+                                        document.getElementById("city").value = component.long_name;
+                                    }
+                                    if (component.types.includes("administrative_area_level_1")) {
+                                        document.getElementById("state").value = component.long_name;
+                                    }
+                                    if (component.types.includes("route")) {
+                                        document.getElementById("road").value = component.long_name;
+                                    }
+                                });
+
+                                locationMessage.textContent = "Location added successfully!";
+                            } else {
+                                locationMessage.textContent = "Unable to fetch address.";
+                            }
+                        });
+                    },
+                    () => {
+                        locationMessage.textContent = "Location access denied. Please enable location permissions.";
+                    }
+                );
+            } else {
+                locationMessage.textContent = "Geolocation is not supported by your browser.";
+            }
+        }
+    </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDkQp-TVOeOoTTq7UMJFcTuY7kTi0TBVU"></script>
+</body>
+</html>
